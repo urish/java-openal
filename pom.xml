@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.urish.openal</groupId>
+	<artifactId>java-openal</artifactId>
+	<packaging>jar</packaging>
+	<version>1.0-SNAPSHOT</version>
+
+	<name>JNA OpenAL Wrapper</name>
+
+	<developers>
+		<developer>
+			<name>Uri Shaked</name>
+			<roles>
+				<role>Lead Programmer</role>
+			</roles>
+			<email>uri@urish.org</email>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>GPLv2+CE</name>
+			<url>https://glassfish.dev.java.net/public/CDDL+GPL.html</url>
+			<distribution>repo</distribution>
+			<comments>GPL version 3 plus the Classpath Exception</comments>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>scm:git:git@github.com:urish/java-openal.git</connection>
+		<developerConnection>scm:git:git@github.com:urish/java-openal.git</developerConnection>
+		<url>git@github.com:urish/java-openal.git</url>
+	</scm>
+
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+
+	<properties>
+		<version.jna>3.4.0</version.jna>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>net.java.dev.jna</groupId>
+			<artifactId>jna</artifactId>
+			<version>${version.jna}</version>
+		</dependency>
+	</dependencies>
+</project>
