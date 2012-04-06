@@ -28,11 +28,6 @@ public class Source {
 		checkForError();
 	}
 
-	public void close() {
-		IntByReference sourceIdHolder = new IntByReference(sourceId);
-		al.alDeleteSources(1, sourceIdHolder);
-	}
-
 	public void pause() throws ALException {
 		al.alSourcePause(sourceId);
 		checkForError();
@@ -41,6 +36,90 @@ public class Source {
 	public void stop() throws ALException {
 		al.alSourceStop(sourceId);
 		checkForError();
+	}
+
+	public void rewind() throws ALException {
+		al.alSourceRewind(sourceId);
+		checkForError();
+	}
+
+	public void close() {
+		IntByReference sourceIdHolder = new IntByReference(sourceId);
+		al.alDeleteSources(1, sourceIdHolder);
+	}
+
+	public void queueBuffer(Buffer buffer) throws ALException {
+		queueBuffers(new Buffer[] { buffer });
+	}
+
+	public void queueBuffers(Buffer[] buffers) throws ALException {
+		int[] bufferIds = new int[buffers.length];
+		for (int i = 0; i < buffers.length; i++) {
+			bufferIds[i] = buffers[i].getBufferId();
+		}
+		al.alSourceQueueBuffers(sourceId, buffers.length, bufferIds);
+		checkForError();
+	}
+
+	public void unqueueBuffer(Buffer buffer) throws ALException {
+		unqueueBuffers(new Buffer[] { buffer });
+	}
+
+	public void unqueueBuffers(Buffer[] buffers) throws ALException {
+		int[] bufferIds = new int[buffers.length];
+		for (int i = 0; i < buffers.length; i++) {
+			bufferIds[i] = buffers[i].getBufferId();
+		}
+		al.alSourceUnqueueBuffers(sourceId, buffers.length, bufferIds);
+		checkForError();
+	}
+
+	public int getQueuedBufferCount() throws ALException {
+		return getIntParam(AL.AL_BUFFERS_QUEUED);
+	}
+
+	public int getProcessedBufferCount() throws ALException {
+		return getIntParam(AL.AL_BUFFERS_PROCESSED);
+	}
+
+	public SourceState getSourceState() throws ALException {
+		int sourceState = getIntParam(AL.AL_SOURCE_STATE);
+		switch (sourceState) {
+		case AL.AL_INITIAL:
+			return SourceState.INITIAL;
+
+		case AL.AL_PLAYING:
+			return SourceState.PLAYING;
+
+		case AL.AL_STOPPED:
+			return SourceState.STOPPED;
+
+		case AL.AL_PAUSED:
+			return SourceState.PAUSED;
+
+		default:
+			throw new ALException("Unknown source state value encountered: " + sourceState);
+		}
+	}
+
+	/**
+	 * Source type (Static, Streaming or undetermined). Source is STATIC if a
+	 * Buffer has been attached using AL_BUFFER. Source is STREAMING if one or
+	 * more Buffers have been attached using alSourceQueueBuffers. Source is
+	 * UNDETERMINED when it has the NULL buffer attached.
+	 */
+	public SourceType getSourceType() throws ALException {
+		int sourceType = getIntParam(AL.AL_SOURCE_TYPE);
+		switch (sourceType) {
+		case AL.AL_STATIC:
+			return SourceType.STATIC;
+		case AL.AL_STREAMING:
+			return SourceType.STREAMING;
+		case AL.AL_UNDETERMINED:
+			return SourceType.UNDETERMINED;
+		default:
+			throw new ALException("Unknown source type value encountered: " + sourceType);
+		}
 	}
 
 	public float getFloatParam(int param) throws ALException {
@@ -90,10 +169,20 @@ public class Source {
 		setIntParam(AL.AL_BUFFER, buffer.getBufferId());
 	}
 
+	/**
+	 * Returns the current gain value of the source.
+	 */
 	public float getGain() throws ALException {
 		return getFloatParam(AL.AL_GAIN);
 	}
 
+	/**
+	 * Indicate the gain (volume amplification) applied. Range: [0.0-1.0] A value
+	 * of 1.0 means un-attenuated/unchanged. Each division by 2 equals an
+	 * attenuation of -6dB. Each multiplicaton with 2 equals an amplification of
+	 * +6dB. A value of 0.0 is meaningless with respect to a logarithmic scale;
+	 * it is interpreted as zero volume - the channel is effectively disabled.
+	 */
 	public void setGain(float gain) throws ALException {
 		setFloatParam(AL.AL_GAIN, gain);
 	}

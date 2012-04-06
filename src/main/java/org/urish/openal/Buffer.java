@@ -4,18 +4,16 @@ import org.urish.openal.jna.AL;
 import org.urish.openal.jna.ALFactory;
 import org.urish.openal.jna.Util;
 
-import com.sun.jna.ptr.IntByReference;
-
 public class Buffer {
 	private final AL al;
 	private final int bufferId;
 
 	public Buffer(ALFactory factory) throws ALException {
 		al = factory.al;
-		IntByReference bufferIdHolder = new IntByReference(0);
-		al.alGenBuffers(1, bufferIdHolder);
+		int[] bufferIds = {0};
+		al.alGenBuffers(1, bufferIds);
 		Util.checkForALError(al);
-		bufferId = bufferIdHolder.getValue();
+		bufferId = bufferIds[0];
 	}
 
 	Buffer(AL al, int bufferId) {
@@ -24,8 +22,8 @@ public class Buffer {
 	}
 
 	public void close() {
-		IntByReference bufferIdHolder = new IntByReference(bufferId);
-		al.alDeleteBuffers(1, bufferIdHolder);
+		int[] bufferIds = {bufferId};
+		al.alDeleteBuffers(1, bufferIds);
 	}
 
 	public void addBufferData(int format, byte[] data, int size, int sampleRate) throws ALException {

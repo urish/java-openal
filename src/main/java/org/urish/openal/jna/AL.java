@@ -436,9 +436,9 @@ public interface AL extends Library {
 	/*
 	 * Source Queuing
 	 */
-	void alSourceQueueBuffers(int sid, /* ALsizei */int numEntries, IntByReference bids);
+	void alSourceQueueBuffers(int sid, /* ALsizei */int numEntries, int[] bids);
 
-	void alSourceUnqueueBuffers(int sid, /* ALsizei */int numEntries, IntByReference bids);
+	void alSourceUnqueueBuffers(int sid, /* ALsizei */int numEntries, int[] bids);
 
 	/**
 	 * BUFFER Buffer objects are storage space for sample data. Buffers are
@@ -451,10 +451,10 @@ public interface AL extends Library {
 	 */
 
 	/* Create Buffer objects */
-	void alGenBuffers( /* ALsizei */int n, IntByReference buffers);
+	void alGenBuffers( /* ALsizei */int n, int[] buffers);
 
 	/* Delete Buffer objects */
-	void alDeleteBuffers( /* ALsizei */int n, IntByReference buffers);
+	void alDeleteBuffers( /* ALsizei */int n, int[] buffers);
 
 	/* Verify a handle is a valid Buffer */
 	boolean alIsBuffer(int bid);
