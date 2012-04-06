@@ -28,10 +28,10 @@ public class OpenAL {
 	 * @throws ALException
 	 */
 	public void init(String deviceName) throws ALException {
-		if (device != null) {
+		if (device == null) {
 			device = new Device(factory, deviceName);
 		}
-		if (context != null) {
+		if (context == null) {
 			context = new Context(device);
 		}
 	}

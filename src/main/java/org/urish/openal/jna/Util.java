@@ -37,7 +37,8 @@ public class Util {
 
 	public static ALException createALException(AL al) {
 		int errorCode = al.alGetError();
-		return new ALException("AL Error " + errorCode + ": " + getString(al.alGetString(errorCode)));
+		return new ALException("AL Error " + String.format("0x%x", errorCode) + ": "
+				+ getString(al.alGetString(errorCode)));
 	}
 
 	public static void checkForALCError(ALC alc, ALCdevice device) throws ALException {
@@ -49,7 +50,8 @@ public class Util {
 
 	public static ALException createALCException(ALC alc, ALCdevice device) {
 		int errorCode = alc.alcGetError(device);
-		return new ALException("ALC Error " + errorCode + ": " + getString(alc.alcGetString(device, errorCode)));
+		return new ALException("ALC Error " + String.format("%x", errorCode) + ": "
+				+ getString(alc.alcGetString(device, errorCode)));
 	}
 
 }

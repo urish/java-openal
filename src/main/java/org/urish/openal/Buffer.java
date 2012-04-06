@@ -9,12 +9,17 @@ public class Buffer {
 	private final int bufferId;
 
 	public Buffer(ALFactory factory) throws ALException {
-		al = factory.al;
+		this(factory.al);
+	}
+	
+	public Buffer(AL al) throws ALException {
+		this.al = al;
 		int[] bufferIds = {0};
 		al.alGenBuffers(1, bufferIds);
 		Util.checkForALError(al);
 		bufferId = bufferIds[0];
 	}
+
 
 	Buffer(AL al, int bufferId) {
 		this.al = al;
