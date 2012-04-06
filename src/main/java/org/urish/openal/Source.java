@@ -98,6 +98,20 @@ public class Source {
 		setFloatParam(AL.AL_GAIN, gain);
 	}
 
+	/**
+	 * Specify the pitch to be applied at source. Range: [0.5-2.0] Default: 1.0
+	 */
+	public float getPitch() throws ALException {
+		return getFloatParam(AL.AL_PITCH);
+	}
+
+	/**
+	 * Specify the pitch to be applied at source. Range: [0.5-2.0] Default: 1.0
+	 */
+	public void setPitch(float pitch) throws ALException {
+		setFloatParam(AL.AL_PITCH, pitch);
+	}
+
 	public boolean isLooping() throws ALException {
 		return getIntParam(AL.AL_LOOPING) == AL.AL_TRUE;
 	}
@@ -106,18 +120,36 @@ public class Source {
 		setIntParam(AL.AL_LOOPING, looping ? AL.AL_TRUE : AL.AL_FALSE);
 	}
 
+	/**
+	 * Returns the current location in three dimensional space. For more
+	 * information, see {@link setPosition(org.urish.openal.Tuple3F)}.
+	 */
 	public Tuple3F getPosition() throws ALException {
 		return getFloat3Param(AL.AL_POSITION);
 	}
 
+	/**
+	 * Specify the current location in three dimensional space. OpenAL, like
+	 * OpenGL, uses a right handed coordinate system, where in a frontal default
+	 * view X (thumb) points right, Y points up (index finger), and Z points
+	 * towards the viewer/camera (middle finger). To switch from a left handed
+	 * coordinate system, flip the sign on the Z coordinate. Listener position
+	 * is always in the world coordinate system.
+	 */
 	public void setPosition(Tuple3F position) throws ALException {
 		setFloat3Param(AL.AL_POSITION, position);
 	}
 
+	/**
+	 * Returns the current velocity in three dimensional space.
+	 */
 	public Tuple3F getVelocity() throws ALException {
 		return getFloat3Param(AL.AL_VELOCITY);
 	}
 
+	/**
+	 * Specify the current velocity in three dimensional space.
+	 */
 	public void setVelocity(Tuple3F velocity) throws ALException {
 		setFloat3Param(AL.AL_VELOCITY, velocity);
 	}
