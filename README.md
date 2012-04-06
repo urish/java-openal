@@ -15,25 +15,33 @@ The following code shows how to load and play a simple mono wave file:
 
 ### Step 1 - Load wave data into a byte array
 
-	AudioInputStream ais = AudioSystem.getAudioInputStream(new File("sample.wav"))
-	AudioFormat audioFormat = in.getFormat();
+	AudioInputStream ais = AudioSystem.getAudioInputStream(new File("sample.wav"));
+	AudioFormat audioFormat = ais.getFormat();
 	byte[] waveBuffer = IOUtils.toByteArray(ais);
-	ais.close()
+	ais.close();
 	
 ### Step 2 - Initialize OpenAL, create a source a buffer
 
 	OpenAL openal = new OpenAL();
 	Source source = openal.createSource();
 	Buffer buffer = openal.createBuffer();
-	source.setBuffer(buffer)
+	buffer.addBufferData(audioFormat, waveBuffer);
+	source.setBuffer(buffer);
 	
 ### Step 3 - Play the sound, set gain, change pitch
 
-	source.play()		 	// Play
+	source.play();		 	// Play
 	Thread.sleep(1000);
 	source.setGain(0.5f); 	// 50% volume
 	Thread.sleep(1000);
 	source.setPitch(0.85f); // 85% of the original pitch
+	Thread.sleep(1000);
+
+### Finally, clean up
+
+	buffer.close();
+	source.close();
+	openal.close();
 	
 You can create as multiple sources and play them simultaneously.
  
