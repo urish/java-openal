@@ -10,6 +10,7 @@ import com.sun.jna.ptr.IntByReference;
 public class Source {
 	private final AL al;
 	private final int sourceId;
+	private boolean closed = false;
 
 	public Source(ALFactory factory) throws ALException {
 		al = factory.al;
@@ -44,8 +45,16 @@ public class Source {
 	}
 
 	public void close() {
-		IntByReference sourceIdHolder = new IntByReference(sourceId);
-		al.alDeleteSources(1, sourceIdHolder);
+		if (!closed) {
+			IntByReference sourceIdHolder = new IntByReference(sourceId);
+			al.alDeleteSources(1, sourceIdHolder);
+			closed = true;
+		}
+	}
+
+	@Override
+	protected void finalize() {
+		close();
 	}
 
 	public void queueBuffer(Buffer buffer) throws ALException {
@@ -177,8 +186,8 @@ public class Source {
 	}
 
 	/**
-	 * Indicate the gain (volume amplification) applied. Range: [0.0-1.0] A value
-	 * of 1.0 means un-attenuated/unchanged. Each division by 2 equals an
+	 * Indicate the gain (volume amplification) applied. Range: [0.0-1.0] A
+	 * value of 1.0 means un-attenuated/unchanged. Each division by 2 equals an
 	 * attenuation of -6dB. Each multiplicaton with 2 equals an amplification of
 	 * +6dB. A value of 0.0 is meaningless with respect to a logarithmic scale;
 	 * it is interpreted as zero volume - the channel is effectively disabled.
@@ -205,7 +214,7 @@ public class Source {
 		return getIntParam(AL.AL_LOOPING) == AL.AL_TRUE;
 	}
 
-	public void SetLooping(boolean looping) throws ALException {
+	public void setLooping(boolean looping) throws ALException {
 		setIntParam(AL.AL_LOOPING, looping ? AL.AL_TRUE : AL.AL_FALSE);
 	}
 
@@ -227,6 +236,18 @@ public class Source {
 	 */
 	public void setPosition(Tuple3F position) throws ALException {
 		setFloat3Param(AL.AL_POSITION, position);
+	}
+	
+	/**
+	 * Specify the current location in three dimensional space. OpenAL, like
+	 * OpenGL, uses a right handed coordinate system, where in a frontal default
+	 * view X (thumb) points right, Y points up (index finger), and Z points
+	 * towards the viewer/camera (middle finger). To switch from a left handed
+	 * coordinate system, flip the sign on the Z coordinate. Listener position
+	 * is always in the world coordinate system.
+	 */
+	public void setPosition(float x, float y, float z) throws ALException {
+		setFloat3Param(AL.AL_POSITION, new Tuple3F(x, y, z));
 	}
 
 	/**

@@ -12,6 +12,7 @@ import com.sun.jna.Pointer;
 public class Device {
 	final ALC alc;
 	final ALCdevice device;
+	private boolean closed = false;
 
 	public Device(ALFactory factory) throws ALException {
 		this(factory, null);
@@ -26,7 +27,15 @@ public class Device {
 	}
 
 	public void close() {
-		alc.alcCloseDevice(device);
+		if (!closed) {
+			alc.alcCloseDevice(device);
+			closed = true;
+		}
+	}
+
+	@Override
+	protected void finalize() {
+		close();
 	}
 
 	public static String defaultDevice(ALFactory factory) {
@@ -47,7 +56,7 @@ public class Device {
 	}
 
 	public void checkForError() throws ALException {
-		Util.checkForALCError(alc, device);		
+		Util.checkForALCError(alc, device);
 	}
 
 }

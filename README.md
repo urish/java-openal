@@ -9,39 +9,33 @@ You can use this wrapper with the free OpenAL Soft implementation found here:
 * [OpenAL Soft Homepage](http://kcat.strangesoft.net/openal.html)
 The above page includes a source package, as well as pre-compiled win32 dll.
 
+The library enables you to easily integrate true 3D surround sound into your applications. 
+It supports stereo 3D sound, quadraphonic (4-speaker) configuration, 5.1 and 7.1 surround speaker configurations.
+
 Example Code:
 -------------
-The following code shows how to load and play a simple mono wave file:
+The following code shows how to load and play a simple wave file:
 
-### Step 1 - Load wave data into a byte array
-
-	AudioInputStream ais = AudioSystem.getAudioInputStream(new File("sample.wav"));
-	AudioFormat audioFormat = ais.getFormat();
-	byte[] waveBuffer = IOUtils.toByteArray(ais);
-	ais.close();
-	
-### Step 2 - Initialize OpenAL, create a source with a buffer
+### Basic example - Load and play a wave file
 
 	OpenAL openal = new OpenAL();
-	Source source = openal.createSource();
-	Buffer buffer = openal.createBuffer();
-	buffer.addBufferData(audioFormat, waveBuffer);
-	source.setBuffer(buffer);
-	
-### Step 3 - Play the sound, set gain, change pitch
+	Source source = openal.createSource(new File("sample.wav"));
+	source.play();
+		
+### Advanced example - Set source parameters
 
-	source.play();		 	// Play
-	Thread.sleep(1000);
-	source.setGain(0.5f); 	// 50% volume
-	Thread.sleep(1000);
-	source.setPitch(0.85f); // 85% of the original pitch
-	Thread.sleep(1000);
+	source.setGain(0.75f); 		// 75% volume
+	source.setPitch(0.85f); 	// 85% of the original pitch
+	source.setPosition(-1, 0, 0); // -1 means 1 unit to the left
+	source.setLooping(true); 	// Loop the sound effect
+	Thread.sleep(10000);     	// Wait for 10 seconds
 
 ### Finally, clean up
 
-	buffer.close();
 	source.close();
 	openal.close();
 	
-You can create as multiple sources and play them simultaneously.
+You can create multiple sources and play them simultaneously. You can also change any of the source parameters
+while the source is playing.
+
  

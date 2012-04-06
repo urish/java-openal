@@ -6,6 +6,7 @@ import org.urish.openal.jna.ALCcontext;
 public class Context {
 	final ALC alc;
 	private final ALCcontext context;
+	private boolean closed = false;
 
 	public Context(Device device) throws ALException {
 		alc = device.alc;
@@ -19,8 +20,16 @@ public class Context {
 		}
 		device.checkForError();
 	}
-	
+
 	public void close() {
-		alc.alcDestroyContext(context);
+		if (!closed) {
+			alc.alcDestroyContext(context);
+			closed = true;
+		}
+	}
+
+	@Override
+	protected void finalize() {
+		close();
 	}
 }

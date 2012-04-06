@@ -1,6 +1,15 @@
 package org.urish.openal;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import org.urish.openal.jna.ALFactory;
+import org.urish.openal.jna.Util;
 
 /**
  * This class contains some boilerplate code for initializing/tearing down
@@ -36,6 +45,9 @@ public class OpenAL {
 		}
 	}
 
+	/**
+	 * Cleans up the Context and Device objects.
+	 */
 	public void close() {
 		if (context != null) {
 			context.close();
@@ -47,19 +59,81 @@ public class OpenAL {
 		}
 	}
 
+	/**
+	 * Returns the OpenAL device object
+	 */
 	public Device getDevice() {
 		return device;
 	}
 
+	/**
+	 * Returns the OpenAL context object
+	 */
 	public Context getContext() {
 		return context;
 	}
 
+	/**
+	 * Creates a new OpenAL source and returns it.
+	 */
 	public Source createSource() throws ALException {
 		return new Source(factory);
 	}
 
+	/**
+	 * Creates a new OpenAL buffer and returns it.
+	 */
 	public Buffer createBuffer() throws ALException {
 		return new Buffer(factory);
+	}
+	
+	/**
+	 * Utility method to create a source with a given wave file attached as a buffer.
+	 * @param waveFile The file to load into the source's buffer
+	 * @return A new OpenAL source
+	 */
+	public Source createSource(File waveFile) throws ALException, IOException, UnsupportedAudioFileException {
+		return createSource(AudioSystem.getAudioInputStream(waveFile));
+	}
+
+	/**
+	 * Utility method to create a source and preload audio data into its buffer
+	 * @param url a URL of a wave file containing the audio data to load
+	 * @return A new OpenAL source
+	 */
+	public Source createSource(URL url) throws ALException, IOException, UnsupportedAudioFileException {
+		return createSource(AudioSystem.getAudioInputStream(url));
+	}
+
+	/**
+	 * Utility method to create a source and preload audio data into its buffer
+	 * @param audioStream The audio input stream to load into the new source's buffer
+	 * @return A new OpenAL source
+	 */
+	public Source createSource(AudioInputStream audioInputStream) throws ALException, IOException, UnsupportedAudioFileException {
+		Source source = createSource();
+		Buffer buffer = createBuffer(audioInputStream);
+		source.setBuffer(buffer);
+		return source;
+	}
+
+	/**
+	 * Creates a buffer and loads the given wave file input that buffer.
+	 * @param waveFile The file to load into the new buffer
+	 * @return A new buffer preloaded with the given audio file contents
+	 */
+	public Buffer createBuffer(File waveFile) throws IOException, UnsupportedAudioFileException, ALException {
+		return createBuffer(AudioSystem.getAudioInputStream(waveFile));
+	}
+
+	/**
+	 * Creates a buffer and fills it with data from the given audio input stream
+	 * @param audioStream The audio input stream to load into the new buffer
+	 * @return A new OpenAL buffer preloaded with the given audio file contents
+	 */
+	public Buffer createBuffer(AudioInputStream audioStream) throws ALException, IOException {
+		Buffer result = createBuffer();
+		result.addBufferData(audioStream.getFormat(), Util.readStreamContents(audioStream));
+		return result;
 	}
 }

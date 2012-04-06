@@ -9,6 +9,7 @@ import org.urish.openal.jna.Util;
 public class Buffer {
 	private final AL al;
 	private final int bufferId;
+	private boolean closed = false;
 
 	public Buffer(ALFactory factory) throws ALException {
 		this(factory.al);
@@ -28,8 +29,16 @@ public class Buffer {
 	}
 
 	public void close() {
-		int[] bufferIds = { bufferId };
-		al.alDeleteBuffers(1, bufferIds);
+		if (!closed) {
+			int[] bufferIds = { bufferId };
+			al.alDeleteBuffers(1, bufferIds);
+			closed = true;
+		}
+	}
+	
+	@Override
+	protected void finalize() {
+		close();
 	}
 
 	public void addBufferData(AudioFormat format, byte[] data) throws ALException {

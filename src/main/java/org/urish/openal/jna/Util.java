@@ -1,5 +1,8 @@
 package org.urish.openal.jna;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -54,4 +57,13 @@ public class Util {
 				+ getString(alc.alcGetString(device, errorCode)));
 	}
 
+	public static byte[] readStreamContents(InputStream input) throws IOException {
+		ByteArrayOutputStream result = new ByteArrayOutputStream();
+		byte[] buffer = new byte[4096];
+		int n = 0;
+		while (-1 != (n = input.read(buffer))) {
+			result.write(buffer, 0, n);
+		}
+		return result.toByteArray();
+	}
 }
