@@ -33,13 +33,16 @@ public class Util {
 	public static void checkForALError(AL al) throws ALException {
 		int errorCode = al.alGetError();
 		if (errorCode != AL.AL_NO_ERROR) {
-			throw createALException(al);
+			throw createALException(al, errorCode);
 		}
 
 	}
 
 	public static ALException createALException(AL al) {
-		int errorCode = al.alGetError();
+		return createALException(al, al.alGetError());
+	}
+
+	private static ALException createALException(AL al, int errorCode) {
 		return new ALException("AL Error " + String.format("0x%x", errorCode) + ": "
 				+ getString(al.alGetString(errorCode)));
 	}
@@ -47,12 +50,15 @@ public class Util {
 	public static void checkForALCError(ALC alc, ALCdevice device) throws ALException {
 		int errorCode = alc.alcGetError(device);
 		if (errorCode != ALC.ALC_NO_ERROR) {
-			throw createALCException(alc, device);
+			throw createALCException(alc, device, errorCode);
 		}
 	}
 
 	public static ALException createALCException(ALC alc, ALCdevice device) {
-		int errorCode = alc.alcGetError(device);
+		return createALCException(alc, device, alc.alcGetError(device));
+	}
+	
+	private static ALException createALCException(ALC alc, ALCdevice device, int errorCode) {
 		return new ALException("ALC Error " + String.format("%x", errorCode) + ": "
 				+ getString(alc.alcGetString(device, errorCode)));
 	}

@@ -1,5 +1,10 @@
 package org.urish.openal;
 
+import java.io.BufferedOutputStream;
+import java.io.OutputStream;
+
+import javax.sound.sampled.AudioFormat;
+
 import org.urish.openal.jna.AL;
 import org.urish.openal.jna.ALFactory;
 import org.urish.openal.jna.Util;
@@ -8,6 +13,8 @@ import com.sun.jna.ptr.FloatByReference;
 import com.sun.jna.ptr.IntByReference;
 
 public class Source {
+	private static final int STREAMING_BUFFER_SIZE = 2048;
+	
 	private final AL al;
 	private final int sourceId;
 	private boolean closed = false;
@@ -79,7 +86,7 @@ public class Source {
 		for (int i = 0; i < buffers.length; i++) {
 			bufferIds[i] = buffers[i].getBufferId();
 		}
-		al.alSourceUnqueueBuffers(sourceId, buffers.length, bufferIds);
+		al.alSourceUnqueueBuffers(sourceId, bufferIds.length, bufferIds);
 		checkForError();
 	}
 
@@ -262,6 +269,10 @@ public class Source {
 	 */
 	public void setVelocity(Tuple3F velocity) throws ALException {
 		setFloat3Param(AL.AL_VELOCITY, velocity);
+	}
+	
+	public OutputStream createOutputStream(AudioFormat format) throws ALException {
+		return new BufferedOutputStream(new SourceOutputStream(al, this, format), STREAMING_BUFFER_SIZE);
 	}
 
 	private void checkForError() throws ALException {
