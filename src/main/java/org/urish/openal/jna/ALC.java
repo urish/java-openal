@@ -1,13 +1,10 @@
 package org.urish.openal.jna;
 
 import com.sun.jna.Library;
-import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.IntByReference;
 
 public interface ALC extends Library {
-	public final static ALC instance = (ALC) Native.loadLibrary("soft_oal", ALC.class);
-
 	/**
 	 * followed by <int> Hz
 	 */
@@ -95,7 +92,7 @@ public interface ALC extends Library {
 	public final static int ALC_DEFAULT_ALL_DEVICES_SPECIFIER = 0x1012;
 	public final static int ALC_ALL_DEVICES_SPECIFIER = 0x1013;
 
-	/*
+		/*
 	 * Context Management
 	 */
 	public ALCcontext alcCreateContext(ALCdevice device, IntByReference attrlist);
