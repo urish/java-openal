@@ -10,10 +10,12 @@ public class ALFactory {
 
 	public final AL al;
 	public final ALC alc;
+	public final ALExt alext;
 
 	public ALFactory() {
 		al = (AL) Native.loadLibrary(DEFAULT_DLL_NAME, AL.class);
 		alc = (ALC) Native.loadLibrary(DEFAULT_DLL_NAME, ALC.class);
+		alext = (ALExt) Native.loadLibrary(DEFAULT_DLL_NAME, ALExt.class);
 	}
 
 	public ALFactory(File dllPath) throws FileNotFoundException {
@@ -28,5 +30,6 @@ public class ALFactory {
 
 		al = (AL) Native.loadLibrary(dllName, AL.class);
 		alc = (ALC) Native.loadLibrary(dllName, ALC.class);
+		alext = (ALExt) Native.loadLibrary(dllName, ALExt.class);
 	}
 }
