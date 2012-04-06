@@ -20,7 +20,7 @@ The following code shows how to load and play a simple mono wave file:
 	byte[] waveBuffer = IOUtils.toByteArray(ais);
 	ais.close();
 	
-### Step 2 - Initialize OpenAL, create a source a buffer
+### Step 2 - Initialize OpenAL, create a source with a buffer
 
 	OpenAL openal = new OpenAL();
 	Source source = openal.createSource();
