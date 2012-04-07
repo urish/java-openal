@@ -5,8 +5,8 @@ Copyright (c) 2012 Uri Shaked ([Website](http://www.urish.org))
 
 Released under the open source GPL+CE (Classpath Exception) License.
 
-You can use this wrapper with the free OpenAL Soft implementation found here:
-* [OpenAL Soft Homepage](http://kcat.strangesoft.net/openal.html)
+You can use this wrapper with the free OpenAL Soft implementation found in
+[The OpenAL Soft Homepage](http://kcat.strangesoft.net/openal.html)
 The above page includes a source package, as well as pre-compiled win32 dll.
 
 The library enables you to easily integrate true 3D surround sound into your applications. 
@@ -38,4 +38,20 @@ The following code shows how to load and play a simple wave file:
 You can create multiple sources and play them simultaneously. You can also change any of the source parameters
 while the source is playing.
 
- 
+Using the library in your project
+---------------------------------
+
+To use this library with your project, the OpenAL DLL/shared library must be available on your system's path.
+By default, the library uses the OpenAL Soft implementation, which can be downloaded from 
+[here](http://kcat.strangesoft.net/openal.html).
+
+### Maven users
+
+Add the following dependency to your pom.xml:
+
+	<dependency>
+		<groupId>org.urish.openal</groupId>
+		<artifactId>java-openal</artifactId>
+		<version>1.0.0</version>
+	</dependency>
+
