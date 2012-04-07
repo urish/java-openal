@@ -55,3 +55,8 @@ Add the following dependency to your pom.xml:
 		<version>1.0.0</version>
 	</dependency>
 
+### Download the jars directly (without Maven)
+
+If you do not use maven with your project, you can download the latest release jars directly from the [Maven Central Repository](http://repo1.maven.org/maven2/org/urish/openal/java-openal/).
+You will also need to add the JNA jars to your classpath. You can download JNA from [here](http://java.net/projects/jna/downloads).
+ 
