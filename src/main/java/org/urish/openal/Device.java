@@ -58,5 +58,9 @@ public class Device {
 	public void checkForError() throws ALException {
 		Util.checkForALCError(alc, device);
 	}
-
+	
+	@Override
+	public String toString() {
+		return "Device[" + device + "]";
+	}
 }

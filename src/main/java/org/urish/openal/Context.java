@@ -32,4 +32,9 @@ public class Context {
 	protected void finalize() {
 		close();
 	}
+
+	@Override
+	public String toString() {
+		return "Context[" + context + "]";
+	}
 }

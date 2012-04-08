@@ -1,8 +1,7 @@
 package org.urish.openal.jna;
 
-import com.sun.jna.Structure;
+import com.sun.jna.PointerType;
 
 
-public class ALCcontext extends Structure implements Structure.ByReference {
-	public byte dummy;
+public class ALCcontext extends PointerType {
 }
