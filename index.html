@@ -1,0 +1,167 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Language" content="en">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Uri Shaked - urish.org</title>
+		<meta name="description" content="JNAL - JNA OpenAL Wrapper for Java">
+		<meta name="keywords" content="java,audio,3d sound,wrapper,OpenAL,native,JNA,maven,pom">
+		<style type="text/css">
+			body, html {
+				margin: 0;
+				padding: 0;
+			}
+
+			#header {
+				margin: 20px 0 32px;
+				height: 80px;
+				background-color: #000080;
+			}
+			
+			#header-content {
+				position: relative;
+				width: 997px;
+				margin: 0 auto;
+			}
+			
+			#header span {
+				display: inline-block;
+				height: 88px;
+				width: 500px;
+				background: url(urish.png?v=1) -12px 7px no-repeat;
+				text-indent:-1000px;
+				overflow: hidden;
+			}
+			
+			#header img {
+				position: absolute;
+				top: 60px;
+				right: 0;
+				border: solid #000080 3px;
+			}
+			
+			#content { 
+				width: 997px;
+				min-height: 600px;
+				margin: 0 auto;
+			}
+			
+			#footer {
+				margin: 0 auto;
+				text-align: center;
+			}
+			
+			h2 {
+				color: #449;
+				font-family: verdana;
+			}
+		</style>
+		<script type="text/javascript">
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-26981771-1']);
+		  _gaq.push(['_trackPageview']);
+		  (function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+		</script>
+	</head>
+
+	<body>
+		<div id="header">
+			<h1 id="header-content">
+				<span>Urish.org</span>
+				<img id="user-image" src="https://secure.gravatar.com/avatar/fbf41c66afb1e3807b7b330c2d8fcc28?s=140&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-140.png" alt="Uri Shaked" />
+			</h1>
+		</div>
+		<div id="content">
+			<h1>JNAL - JNA OpenAL for Java</h1>
+		
+			<h2>About</h2>
+			<p>
+				The JNA OpenAL Wrapper for Java project enables easy integration of true 3D sound in your java application.
+				Define multiple sound sources, play them concurrently, control their position, pitch, gain and more -
+				all with a few lines of java code.
+			</p>
+			
+			<h2>Use it in your project</h2>
+			<p>
+				The easiest way to get JNAL is using maven. Just add the following lines to your pom.xml under
+				the dependencies section:
+			</p>
+			<blockquote>
+				<pre>
+&lt;dependency&gt;
+	&lt;groupId&gt;org.urish.openal&lt;/groupId&gt;
+	&lt;artifactId&gt;java-openal&lt;/artifactId&gt;
+	&lt;version&gt;1.0.0&lt;/version&gt;
+&lt;/dependency&gt;
+				</pre>
+			</blockquote>
+			
+			<p>
+				You can find the project source code on 
+				<a href="https://github.com/urish/java-openal" title="OpenAL on Github">github</a>.
+			</p>
+
+			<h2>License</h2>
+			<p>
+				The JNAL project is licensed under the GNU General Public License with the
+				<a href="http://www.gnu.org/software/classpath/license.html" target="_blank">Classpath Exception</a>.
+			</p>
+			
+		 	<h2>Sample Code</h2>
+		 	<p>
+				First of all, make sure that the <a href="http://kcat.strangesoft.net/openal.html">OpenAL Soft</a> shared
+				library/DLL is installed on your system. 
+				Alternatively, set the system property "jna.library.path" to point to the directory
+				where you have the OpenAL Soft library binaries installed.
+			</p>
+			
+			<p>
+				Here is a simple program that loads a wave file and plays it using Java OpenAL. If you
+				want to control the position of the sound source (using the setPosition() method), make
+				sure you use a mono sound sample. OpenAL supports setting the position of sound source
+				only for single channel sound samples.
+			</p>
+
+			<blockquote>			
+				<pre>
+package org.urish.openal.example;
+
+import java.io.File;
+
+import org.urish.openal.OpenAL;
+import org.urish.openal.Source;
+
+public class OpenALExample {
+	public static void main(String[] args) throws Exception {
+		/* Initialize OpenAL, load a sound file and play it */
+		OpenAL openal = new OpenAL();
+		Source source = openal.createSource(new File("example.wav"));
+		source.play();
+		
+		/* Play with various sound parameters */
+		source.setGain(0.75f);        // 75% volume
+		source.setPitch(0.85f);       // 85% of the original pitch
+		source.setPosition(-1, 0, 0); // -1 means 1 unit to the left
+		source.setLooping(true);      // Loop the sound effect
+		Thread.sleep(10000);          // Wait for 10 seconds
+
+		/* Cleanup */
+		source.close();
+		openal.close();
+	}
+}
+				</pre>
+			</blockquote>
+			
+			<p>
+				<a href="http://www.urish.org">Go to homepage</a>
+			</p>
+		</div>
+		<div id="footer">
+			Copyright &copy; 2011, 2012, Uri Shaked.
+		</div>
+	</body>
+</html>
