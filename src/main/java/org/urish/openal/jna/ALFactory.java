@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import com.sun.jna.Native;
 
 public class ALFactory {
-	private static final String DEFAULT_DLL_NAME = "soft_oal";
+	private static final String DEFAULT_DLL_NAME = "openal";
 
 	public final AL al;
 	public final ALC alc;
