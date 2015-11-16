@@ -9,7 +9,7 @@ import com.sun.jna.ptr.FloatByReference;
 import com.sun.jna.ptr.IntByReference;
 
 public interface AL extends Library {
-	public final static AL instance = (AL) Native.loadLibrary("soft_oal", AL.class);
+	public final static AL instance = (AL) Native.loadLibrary("openal", AL.class);
 
 	/* "no distance model" or "no buffer" */
 	public final static int AL_NONE = 0;
