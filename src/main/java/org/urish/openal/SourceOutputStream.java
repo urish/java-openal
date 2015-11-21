@@ -121,7 +121,7 @@ public class SourceOutputStream extends OutputStream {
     }
     
     /**
-     * 
+     * samplesProcessed/sampleRate/channels -> ms
      * @return 
      */
     public long getSamplesProcessed(){
