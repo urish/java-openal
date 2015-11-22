@@ -471,13 +471,14 @@ public class Source {
     /**
      *
      * @param format
+     * @param numberOfBuffer
      * @param aBufferSize
      * @return
      * @throws ALException
      */
-    public SourceBufferedOutputStream createOutputStream(AudioFormat format, int aBufferSize) throws ALException {
+    public SourceBufferedOutputStream createOutputStream(AudioFormat format, int numberOfBuffer, int aBufferSize) throws ALException {
 	setStreamingBufferSize(aBufferSize);
-	return createOutputStream(format);
+	return new SourceBufferedOutputStream(new SourceOutputStream(al, this, format, numberOfBuffer), STREAMING_BUFFER_SIZE);
     }
 
     /**
