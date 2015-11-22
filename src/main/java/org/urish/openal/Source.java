@@ -463,7 +463,9 @@ public class Source {
      * @param format
      * @return
      * @throws ALException
+     * @deprecated use createOutputStream with number/size of buffers
      */
+    @Deprecated
     public SourceBufferedOutputStream createOutputStream(AudioFormat format) throws ALException {
 	return new SourceBufferedOutputStream(new SourceOutputStream(al, this, format), STREAMING_BUFFER_SIZE);
     }
